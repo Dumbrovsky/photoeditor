@@ -1,62 +1,38 @@
 from PIL import Image
-obrazek = Image.open("motorka.jpg")
-sirka, vyska = obrazek.size
-x = 0
-#while x < sirka:
- #   y = 0
-  #  while y < vyska:
-   #     r, g, b = obrazek.getpixel((x,y))
-    #    prumer = int((r+g+b)/3)
-     #   obrazek.putpixel((x,y), (r , b, r))
-        #if prumer > 150:
-         #   obrazek.putpixel((x,y), (255, 255, 255))
-        #else:
-         #   obrazek.putpixel((x,y), (0, 0, 0))
-     #   y += 1
-   # x += 1
+from filters import apply_filter
 
-
-
-###def
-def fialovy():
-    while x < sirka:
-     y = 0
-     while y < vyska:
-        r, g, b = obrazek.getpixel((x,y))
-        obrazek.putpixel((x,y), (r , b, r))
-        y += 1
-    x += 1
-    obrazek.show()
-
-def cernobily():
-    y=0
-    r, g, b = obrazek.getpixel((x,y))
-    prumer = int((r+g+b)/3)
-    obrazek.putpixel((x,y), (r , b, r))
-    if prumer > 150:
-        obrazek.putpixel((x,y), (255, 255, 255))
-    else:
-        obrazek.putpixel((x,y), (0, 0, 0))
-        obrazek.show()
-
-
-
-# Menu
-while True:
-    print("\nVyberte si filtr.")
+def display_menu():
+    print("\nMenu")
     print("1. Černobílý filtr")
-    print("2. Fialový filtr")
-    print("3. filtr")
+    print("2. Invert filtr")
+    print("3. Červeno-modrý filtr")
+    print("4. Konec")
 
-    volba=input("Zvolte filtr pomocí čísla.")
+def main():
+    image_path = "/content/motorka.jpg"  # Fixed image path
+    try:
+        image = Image.open(image_path)
+        while True:
+            display_menu()
+            choice = input("Zvolte filtr pomocí čísla: ")
 
-    if volba == "1":
-       cernobily()
-    elif volba == "2":
-       fialovy()
-    elif volba == "3":
-       print("ahoj")
-    else:
-       print("Neplatná volba. Zkus to znovu")
+            if choice == "1":
+                filtered_image = apply_filter(image.copy(), 1)
+                filtered_image.show()
+            elif choice == "2":
+                filtered_image = apply_filter(image.copy(), 2)
+                filtered_image.show()
+            elif choice == "3":
+                filtered_image = apply_filter(image.copy(), 3)
+                filtered_image.show()
+            elif choice == "4":
+                print("Program ukončen.")
+                break
+            else:
+                print("Neplatná volba. Zkuste to znovu.")
+        
+    except FileNotFoundError:
+        print("Soubor nebyl nalezen.")
 
-  
+if __name__ == "__main__":
+    main()
